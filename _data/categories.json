@@ -1,0 +1,27 @@
+[
+  {
+    "_id": "5f7ba62648c8ab593479e72c",
+    "title": "Fashion",
+    "description": "Great fashion and design"
+  },
+  {
+    "_id": "5f7ba63f48c8ab593479e72e",
+    "title": "Technology",
+    "description": "For technology"
+  },
+  {
+    "_id": "5f7ba65048c8ab593479e72f",
+    "title": "Education",
+    "description": "Educational content"
+  },
+  {
+    "_id": "5f7ba65d48c8ab593479e730",
+    "title": "Kids",
+    "description": "Stuff for kids"
+  },
+  {
+    "_id": "5f7ba6ba48c8ab593479e731",
+    "title": "Music",
+    "description": "Good music"
+  }
+]
