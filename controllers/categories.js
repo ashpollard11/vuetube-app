@@ -1,89 +1,72 @@
 const Category = require("../models/Category");
+const ErrorResponse = require("../utils/errorResponse");
+const asyncHandler = require("../middleware/asyncHandler");
 
 //@desc      Get categories
 //@route     GET /api/v1/categories
 //@access    Private/Admin
-exports.getCategories = async (req, res, next) => {
+exports.getCategories = asyncHandler(async (req, res, next) => {
   const categories = await Category.find();
 
   res.status(200).json({ success: true, data: categories });
-};
+});
 
 //@desc      Get category
 //@route     GET /api/v1/categories/:id
 //@access    Private/Admin
-exports.getCategory = async (req, res, next) => {
-  try {
-    const category = await Category.findById(req.params.id);
+exports.getCategory = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.id);
 
-    if (!category) {
-      return res.status(400).json({
-        success: true,
-        error: `No Category with that id of ${req.params.id}`,
-      });
-    }
-
-    res.status(200).json({ success: true, data: category });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+  if (!category) {
+    return next(
+      new ErrorResponse(`No Category with that id of ${req.params.id}`, 404)
+    );
   }
-};
+
+  res.status(200).json({ success: true, data: category });
+});
 
 //@desc      Create Category
 //@route     POST /api/v1/categories
 //@access    Private/Admin
-exports.createCategories = async (req, res, next) => {
-  try {
-    const category = await Category.create(req.body);
+exports.createCategories = asyncHandler(async (req, res, next) => {
+  const category = await Category.create(req.body);
 
-    res.status(200).json({ success: true, data: category });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
-  }
-};
+  res.status(200).json({ success: true, data: category });
+});
 
 //@desc      Update Category
 //@route     PUT /api/v1/categories/:id
 //@access    Private/Admin
-exports.updateCategory = async (req, res, next) => {
-  try {
-    const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-      context: "query",
-    });
+exports.updateCategory = asyncHandler(async (req, res, next) => {
+  const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  });
 
-    if (!category) {
-      return res.status(400).json({
-        success: true,
-        error: `No Category with that id of ${req.params.id}`,
-      });
-    }
-
-    res.status(200).json({ success: true, data: category });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+  if (!category) {
+    return next(
+      new ErrorResponse(`No Category with that id of ${req.params.id}`, 404)
+    );
   }
-};
+
+  res.status(200).json({ success: true, data: category });
+});
 
 //@desc      DELETE category
 //@route     DELETE /api/v1/categories/:id
 //@access    Private/Admin
-exports.deleteCategory = async (req, res, next) => {
-  try {
-    const category = await Category.findById(req.params.id);
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.id);
 
-    if (!category) {
-      return res.status(400).json({
-        success: true,
-        error: `No Category with that id of ${req.params.id}`,
-      });
-    }
-
-    await category.remove();
-
-    res.status(200).json({ success: true, data: category });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+  if (!category) {
+    return next(
+      new ErrorResponse(`No Category with that id of ${req.params.id}`, 404)
+    );
   }
-};
+
+  await category.remove();
+
+  res.status(200).json({ success: true, data: category });
+});
